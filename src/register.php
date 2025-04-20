@@ -23,6 +23,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $sql = "INSERT INTO users (name, email, password, user_type) VALUES ('$name', '$email', '$password', '$user_type')";
 
             if (mysqli_query($conn, $sql)) {
+                if($user_type=="expert"){
+                    // Step 2: Get the user_id generated
+                    $user_id = mysqli_insert_id($conn);
+
+                    // Step 3: Insert into experts table
+                    $insert_expert = "INSERT INTO experts (user_id) 
+                        VALUES ('$user_id')";
+                         mysqli_query($conn, $insert_expert);
+                }
+                
+
                 echo "<script>
                     alert('Registration successful!');
                     window.location.href = 'login.html';
